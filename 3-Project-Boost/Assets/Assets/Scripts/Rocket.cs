@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
     [SerializeField] float mainThrust = 300f;
     [SerializeField] float rcsThrust = 25;
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] AudioClip crashSound;
+    [SerializeField] AudioClip winSound;
     public Rigidbody rigidbody;
     public AudioSource audioSource;
+
+    enum State { Alive, Dying, Transcending };
+    State state = State.Alive;
 
     // Start is called before the first frame update
     void Start()
@@ -22,19 +29,18 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Thrust();
-        Rotate();
+        if (state == State.Alive)
+        {
+            RespondToThrustInput();
+            RespondToRotateInput();
+        }
     }
 
-    void Thrust()
+    void RespondToThrustInput()
     {
         if (Input.GetKey(KeyCode.Space)) // Can trust while rotating.
         {
-            rigidbody.AddRelativeForce(Vector3.up * mainThrust);
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
+            ApplyThrust();
         }
         else
         {
@@ -42,7 +48,16 @@ public class Rocket : MonoBehaviour
         }
     }
 
-    void Rotate()
+    void ApplyThrust()
+    {
+        rigidbody.AddRelativeForce(Vector3.up * mainThrust);
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(mainEngine);
+        }
+    }
+
+    void RespondToRotateInput()
     {
         rigidbody.freezeRotation = true;
         float rotationSpeed = rcsThrust * Time.deltaTime;
@@ -60,16 +75,46 @@ public class Rocket : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (state != State.Alive) { return; }
+
         switch (collision.gameObject.tag)
         {
             case "Friendly":
-
+                print("Friendly object detected");
                 break;
-
+            case "Finish":
+                StartSuccessSequence();
+                break;
             default:
-
+                StartCrashSequence();
                 break;
         }
+    }
+
+    void StartSuccessSequence()
+    {
+        state = State.Transcending;
+        audioSource.Stop();
+        audioSource.PlayOneShot(winSound);
+        Invoke("LoadNextScene", 1f);
+    }
+
+    void StartCrashSequence()
+    {
+        state = State.Dying;
+        audioSource.Stop();
+        audioSource.PlayOneShot(crashSound);
+        Invoke("ReloadScene", 1f);
+    }
+
+    void LoadNextScene()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    void ReloadScene()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1029786569836039949}
   m_Layer: 0
   m_Name: Launch Pad
-  m_TagString: Friendly
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4696154680164215036}
   m_Layer: 0
   m_Name: Base
-  m_TagString: Untagged
+  m_TagString: Friendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

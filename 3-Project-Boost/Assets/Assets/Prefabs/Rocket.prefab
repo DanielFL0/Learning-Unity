@@ -355,7 +355,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c3c8d85965e96954cbcb9b1bc35c2f97, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -369,7 +369,7 @@ AudioSource:
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -451,9 +451,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe0eaccfe03de7448e78229fbc6021c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainThrust: 300
+  rcsThrust: 250
+  mainEngine: {fileID: 8300000, guid: d35ef2d477d80e347850084a20797a1a, type: 3}
+  crashSound: {fileID: 8300000, guid: 0a6ff2cd0cdb24a4eb3560925df7a6e0, type: 3}
+  winSound: {fileID: 8300000, guid: 32f1b1bb912efd24a9089d6900c48149, type: 3}
   rigidbody: {fileID: 0}
   audioSource: {fileID: 0}
-  up: {x: 0, y: 1, z: 0}
 --- !u!1 &3843503004082134752
 GameObject:
   m_ObjectHideFlags: 0
